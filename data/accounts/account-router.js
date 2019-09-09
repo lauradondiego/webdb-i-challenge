@@ -6,6 +6,7 @@ router.use(express.json());
 router.get("/", (req, res) => {
   db("accounts") // same as saying (db.select('*').from('accounts'))
     .select("id", "name", "budget")
+
     .then(accounts => {
       res.status(200).json(accounts);
     })
@@ -42,6 +43,8 @@ router.post("/", validateAccountPost, (req, res) => {
     .then(([id]) => {
       db("accounts")
         .where({ id })
+        // .where({ id: id[0] }) you can do this if you take the brackets out of the
+        // then statement around ID
         .then(post => {
           res.status(200).json(post);
         });
